@@ -1,3 +1,6 @@
 [submodule "Hydron/vendor/spdlog"]
 	path = Hydron/vendor/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "Hydron/vendor/GLFW"]
+	path = Hydron/vendor/GLFW
+	url = https://github.com/TheCherno/glfw.git
