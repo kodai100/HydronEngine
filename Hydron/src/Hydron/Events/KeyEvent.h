@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace Hydron {
 
 	class HYDRON_API KeyEvent : public Event
