@@ -68,14 +68,17 @@ project "Hydron"
 		}
 
 	filter "configurations:Debug"
+		buildoptions "/MDd"
 		defines "HYDRON_DEBUG"
 		symbols "On"
 
 	filter "configurations:Release"
+		buildoptions "/MD"
 		defines "HYDRON_RELEASE"
 		optimize "On"
 
 	filter "configurations:Dist"
+		buildoptions "/MD"
 		defines "HYDRON_DIST"
 		optimize "On"
 
@@ -115,13 +118,16 @@ project "Sandbox"
 		}
 
 	filter "configurations:Debug"
+		buildoptions "/MDd"
 		defines "HYDRON_DEBUG"
 		symbols "On"
 
 	filter "configurations:Release"
+		buildoptions "/MD"
 		defines "HYDRON_RELEASE"
 		optimize "On"
 
 	filter "configurations:Dist"
+		buildoptions "/MD"
 		defines "HYDRON_DIST"
 		optimize "On"

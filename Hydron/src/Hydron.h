@@ -3,6 +3,7 @@
 // For use by Hydron applications
 
 #include "Hydron/Core/Application.h"
+#include "Hydron/Core/Layer.h"
 #include "Hydron/Core/Log.h"
 
 // Entry point =====
