@@ -1,5 +1,6 @@
 #include "Application.h"
 
+#include "Hydron/Events/ApplicationEvent.h"
 #include "Log.h"
 
 namespace Hydron {
@@ -13,6 +14,9 @@ namespace Hydron {
 	}
 
 	void Application::Run() {
+
+		WindowResizeEvent e(1280, 720);
+		HYDRON_TRACE(e);
 
 		while (true) {
 			HYDRON_CORE_INFO("Running")
