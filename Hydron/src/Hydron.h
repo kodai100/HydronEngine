@@ -2,8 +2,8 @@
 
 // For use by Hydron applications
 
-#include "Hydron/Application.h"
-#include "Hydron/Log.h"
+#include "Hydron/Core/Application.h"
+#include "Hydron/Core/Log.h"
 
 // Entry point =====
 

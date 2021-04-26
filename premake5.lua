@@ -1,5 +1,6 @@
 workspace "Hydron"
 	architecture "x64"
+	startproject "Sandbox"
 
 	configurations
 	{
@@ -13,6 +14,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Include directories relative to root folder (solution dir)
 IncludeDir = {}
 IncludeDir["GLFW"] = "Hydron/vendor/GLFW/include"
+
+group "Dependencies"
+	include "Hydron/vendor/GLFW"
+group ""
 
 include "Hydron/vendor/GLFW"
 
