@@ -10,6 +10,12 @@ workspace "Hydron"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+-- Include directories relative to root folder (solution dir)
+IncludeDir = {}
+IncludeDir["GLFW"] = "Hydron/vendor/GLFW/include"
+
+include "Hydron/vendor/GLFW"
+
 project "Hydron"
 	location "Hydron"
 	kind "SharedLib"
@@ -30,7 +36,14 @@ project "Hydron"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
