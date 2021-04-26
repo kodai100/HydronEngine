@@ -1,7 +1,6 @@
 #include "pch.h"
 
 #include "Hydron/Core/Assert.h"
-#include "Hydron/Core/Log.h"
 #include "WindowsWindow.h"
 
 
