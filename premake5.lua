@@ -14,9 +14,11 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Include directories relative to root folder (solution dir)
 IncludeDir = {}
 IncludeDir["GLFW"] = "Hydron/vendor/GLFW/include"
+IncludeDir["Glad"] = "Hydron/vendor/Glad/include"
 
 group "Dependencies"
 	include "Hydron/vendor/GLFW"
+	include "Hydron/vendor/Glad"
 group ""
 
 include "Hydron/vendor/GLFW"
@@ -42,12 +44,14 @@ project "Hydron"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 
 	links
 	{
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -59,7 +63,8 @@ project "Hydron"
 		defines
 		{
 			"HYDRON_PLATFORM_WINDOWS",
-			"HYDRON_BUILD_DLL"
+			"HYDRON_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands

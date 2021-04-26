@@ -7,6 +7,8 @@
 #include "Hydron/Events/KeyEvent.h"
 #include "Hydron/Events/MouseEvent.h"
 
+#include <glad/glad.h>
+
 namespace Hydron {
 
 	static bool s_GLFWInitialized = false;
@@ -50,6 +52,11 @@ namespace Hydron {
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
+
+		// Glad
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		HYDRON_CORE_ASSERT(status, "Failed to initialize Glad!")
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
