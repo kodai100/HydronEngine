@@ -1,3 +1,5 @@
+// サンプルからcppファイル引っこ抜いてきているだけ
+
 #include "pch.h"
 
 #define IMGUI_IMPL_OPENGL_LOADER_GLAD

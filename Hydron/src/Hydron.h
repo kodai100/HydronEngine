@@ -1,13 +1,23 @@
 #pragma once
 
 // For use by Hydron applications
+#include "Hydron/Core/Base.h"
 
 #include "Hydron/Core/Application.h"
 #include "Hydron/Core/Layer.h"
 #include "Hydron/Core/Log.h"
-#include "Hydron/ImGui/ImGuiLayer.h"
-
 #include "Hydron/Core/Timestep.h"
+
+#include "Hydron/Core/Input.h"
+#include "Hydron/Core/KeyCodes.h"
+#include "Hydron/Core/MouseCodes.h"
+
+#include "Hydron/Events/Event.h";
+#include "Hydron/Events/ApplicationEvent.h";
+#include "Hydron/Events/KeyEvent.h";
+#include "Hydron/Events/MouseEvent.h";
+
+#include "Hydron/ImGui/ImGuiLayer.h";
 
 // Entry point =====
 

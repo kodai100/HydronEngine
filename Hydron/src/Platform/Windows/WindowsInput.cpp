@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "WindowsInput.h"
 
+#include "Hydron/Core/Input.h"
 #include "Hydron/Core/Application.h"
 
 #include <GLFW/glfw3.h>
@@ -8,26 +8,24 @@
 namespace Hydron {
 
 
-	Input* Input::s_Instance = new WindowsInput();	// instantiate this position (not inside window init) because input is non-data class 
-
-	bool WindowsInput::IsKeyPressedImpl(int keyCode)
+	bool Input::IsKeyPressed(const KeyCode keyCode)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 
-		auto state = glfwGetKey(window, keyCode);
+		auto state = glfwGetKey(window, static_cast<int32_t>(keyCode));
 
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
 
-	bool WindowsInput::IsMouseButtonPressedImpl(int button)
+	bool Input::IsMouseButtonPressed(const MouseCode button)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
-		auto state = glfwGetMouseButton(window, button);
+		auto state = glfwGetMouseButton(window, static_cast<int32_t>(button));
 		return state == GLFW_PRESS;
 	}
 
-	std::pair<float, float> WindowsInput::GetMousePositionImpl()
+	std::pair<float, float> Input::GetMousePosition()
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		double xPos, yPos;
@@ -35,13 +33,13 @@ namespace Hydron {
 		return { (float)xPos, (float)yPos };
 	}
 
-	float WindowsInput::GetMouseXImpl()
+	float Input::GetMouseX()
 	{
-		auto[x, y] = GetMousePosition();
+		auto [x, y] = GetMousePosition();
 		return x;
 	}
 
-	float WindowsInput::GetMoyseYImpl()
+	float Input::GetMouseY()
 	{
 		auto [x, y] = GetMousePosition();
 		return y;
