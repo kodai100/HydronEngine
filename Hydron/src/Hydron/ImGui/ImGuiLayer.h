@@ -6,7 +6,7 @@
 
 namespace Hydron {
 
-	class HYDRON_API ImGuiLayer : public Layer
+	class ImGuiLayer : public Layer
 	{
 
 	public:

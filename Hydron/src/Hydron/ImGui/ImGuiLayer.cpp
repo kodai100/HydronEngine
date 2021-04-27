@@ -91,10 +91,6 @@ namespace Hydron {
 		Application& app = Application::Get();
 		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
 
-		// Sample 
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
-
 		// Rendering
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

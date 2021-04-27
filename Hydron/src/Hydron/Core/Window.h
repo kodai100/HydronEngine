@@ -26,7 +26,7 @@ namespace Hydron {
 
 
 	// Interface representing a desktop system based window
-	class HYDRON_API Window
+	class Window
 	{
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;

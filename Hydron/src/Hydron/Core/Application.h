@@ -14,7 +14,7 @@
 
 namespace Hydron {
 	
-	class HYDRON_API Application
+	class Application
 	{
 	public:
 		Application();

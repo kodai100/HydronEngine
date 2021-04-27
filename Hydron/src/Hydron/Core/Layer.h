@@ -7,7 +7,7 @@
 namespace Hydron {
 
 
-	class HYDRON_API Layer
+	class Layer
 	{
 
 	public:

@@ -6,7 +6,7 @@
 
 namespace Hydron {
 
-	class HYDRON_API Log
+	class Log
 	{
 	public:
 		static void Init();

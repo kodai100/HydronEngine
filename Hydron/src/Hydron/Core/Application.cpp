@@ -79,6 +79,8 @@ namespace Hydron {
 					layer->OnUpdate(timestep);
 				}
 
+
+				// ImGui stuff ----------
 				m_ImGuiLayer->Begin();
 
 				for (Layer* layer : m_LayerStack)
@@ -87,6 +89,7 @@ namespace Hydron {
 				}
 
 				m_ImGuiLayer->End();
+				// Im Gui ----------------
 			}
 
 			m_Window->OnUpdate();

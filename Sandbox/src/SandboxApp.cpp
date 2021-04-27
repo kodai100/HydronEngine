@@ -1,5 +1,7 @@
 #include <Hydron.h>
 
+#include "imgui/imgui.h"
+
 class ExampleLayer : public Hydron::Layer
 {
 
@@ -22,6 +24,13 @@ public:
 			HYDRON_TRACE("{0}", (char)e.GetKeyCode());
 		}
 
+	}
+
+	void ExampleLayer::OnImGuiRender()
+	{
+		// Sample 
+		static bool show = true;
+		ImGui::ShowDemoWindow(&show);
 	}
 
 	void ExampleLayer::OnUpdate(Hydron::Timestep ts)
