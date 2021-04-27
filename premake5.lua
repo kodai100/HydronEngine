@@ -69,7 +69,7 @@ project "Hydron"
 		defines
 		{
 			"HYDRON_PLATFORM_WINDOWS",
-			"HYDRON_BUILD_DLL",
+			"_CRT_SECURE_NO_WARNINGS",
 			"GLFW_INCLUDE_NONE"
 		}
 
