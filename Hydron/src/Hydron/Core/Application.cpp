@@ -2,6 +2,8 @@
 
 #include "Application.h"
 
+#include "Input.h"
+
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
@@ -85,6 +87,9 @@ namespace Hydron {
 				}
 
 				m_ImGuiLayer->End();
+
+				auto [x, y] = Input::GetMousePosition();
+				HYDRON_CORE_TRACE("{0}, {1}", x, y);
 			}
 
 			m_Window->OnUpdate();
