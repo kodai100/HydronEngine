@@ -1,8 +1,10 @@
 # HydronEngine
-Simple OpenGL application with GLFW
+Hydron engine is a static link library for creating computer graphics application under GLFW environment.
+
+Thanks to the Cherno Game Engine Series (Hazel Game Engine).
+https://github.com/TheCherno/Hazel
 
 # How to build
 ## Windows x64
 1. call GenerateProjects.bat
-2. open Hydron.sln and select Sandbox project
-3. build 2 times to copy Hydron.dll file to Sandbox
+2. open Hydron.sln and build it.
