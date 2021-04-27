@@ -7,3 +7,6 @@
 [submodule "Hydron/vendor/imgui"]
 	path = Hydron/vendor/imgui
 	url = https://github.com/TheCherno/imgui.git
+[submodule "Hydron/vendor/glm"]
+	path = Hydron/vendor/glm
+	url = https://github.com/g-truc/glm.git

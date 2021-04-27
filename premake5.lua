@@ -16,6 +16,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Hydron/vendor/GLFW/include"
 IncludeDir["Glad"] = "Hydron/vendor/Glad/include"
 IncludeDir["ImGui"] = "Hydron/vendor/imgui"
+IncludeDir["glm"] = "Hydron/vendor/glm"
 
 group "Dependencies"
 	include "Hydron/vendor/GLFW"
@@ -38,7 +39,9 @@ project "Hydron"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	includedirs
@@ -47,7 +50,8 @@ project "Hydron"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links
@@ -107,7 +111,8 @@ project "Sandbox"
 	includedirs
 	{
 		"Hydron/vendor/spdlog/include",
-		"Hydron/src"
+		"Hydron/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links
