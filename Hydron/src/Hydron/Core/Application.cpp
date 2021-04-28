@@ -107,7 +107,7 @@ namespace Hydron {
 		}
 
 		m_Minimized = false;
-		// Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
 
 		return false;
 	}
