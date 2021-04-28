@@ -15,16 +15,17 @@ private:
 	glm::vec3 m_CameraPosition;
 	float m_CameraMoveSpeed = 1;
 	glm::vec4 m_Color;
-	
-	Hydron::OrthographicCamera m_Camera;
 
 	Hydron::Ref<Hydron::Texture2D> m_Texture, m_AlphaTexture;
 	Hydron::Ref<Hydron::VertexArray> m_SquareVertexArray;
 
 	Hydron::ShaderLibrary m_ShaderLibrary;
 
+	Hydron::OrthographicCameraController m_CameraController;
+
 public:
-	ExampleLayer() : Layer("Example Layer"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition({ 0,0,0 }), m_Color({0,1,1,1})
+	ExampleLayer()
+		: Layer("Example Layer"), m_CameraPosition({ 0,0,0 }), m_Color({0,1,1,1}), m_CameraController(1280.0f/720.0f)
 	{
 
 		m_SquareVertexArray.reset(Hydron::VertexArray::Create());
@@ -63,27 +64,6 @@ public:
 
 	~ExampleLayer() {}
 
-	void ExampleLayer::OnEvent(Hydron::Event& event) override
-	{
-
-
-	}
-
-	void CameraMovement(Hydron::Timestep ts)
-	{
-		
-		if (Hydron::Input::IsKeyPressed(Hydron::Key::Up))
-			m_CameraPosition.y += m_CameraMoveSpeed * ts;
-		else if(Hydron::Input::IsKeyPressed(Hydron::Key::Down))
-			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
-
-		if (Hydron::Input::IsKeyPressed(Hydron::Key::Left))
-			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
-		else if (Hydron::Input::IsKeyPressed(Hydron::Key::Right))
-			m_CameraPosition.x += m_CameraMoveSpeed * ts;
-
-	}
-
 	void ExampleLayer::OnImGuiRender()
 	{
 		// Sample 
@@ -98,7 +78,7 @@ public:
 	void ExampleLayer::OnUpdate(Hydron::Timestep ts)
 	{
 
-		CameraMovement(ts);
+		m_CameraController.OnUpdate(ts);
 
 		/*Hydron::Material material = new Hydron::Material(m_BlueShader);
 		Hydron::MaterialInstance mi = new Hydron::MaterialInstance(material);
@@ -108,9 +88,8 @@ public:
 		Hydron::RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
 		Hydron::RenderCommand::Clear();
 
-		m_Camera.SetPosition(m_CameraPosition);
 
-		Hydron::Renderer::BeginScene(m_Camera);
+		Hydron::Renderer::BeginScene(m_CameraController.GetCamera());
 		{
 
 			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
@@ -139,6 +118,12 @@ public:
 		}
 		Hydron::Renderer::EndScene();
 
+	}
+
+	void ExampleLayer::OnEvent(Hydron::Event& e) override
+	{
+
+		m_CameraController.OnEvent(e);
 	}
 
 };

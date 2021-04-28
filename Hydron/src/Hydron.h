@@ -28,6 +28,7 @@
 #include "Hydron/Renderer/VertexArray.h"
 
 #include "Hydron/Renderer/OrthographicCamera.h"
+#include "Hydron/Renderer/OrthographicCameraController.h"
 
 // Entry point -------------------------------------------
 
