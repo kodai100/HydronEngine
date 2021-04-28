@@ -18,7 +18,7 @@ private:
 	Hydron::OrthographicCamera m_Camera;
 
 	Hydron::Ref<Hydron::Texture2D> m_Texture, m_AlphaTexture;
-	Hydron::Ref<Hydron::Shader> m_BlueShader;
+	Hydron::Ref<Hydron::Shader> m_TextureShader, m_FlatColorShader;
 	Hydron::Ref<Hydron::VertexArray> m_SquareVertexArray;
 
 public:
@@ -49,50 +49,16 @@ public:
 		m_SquareVertexArray->SetIndexBuffer(squareIndexBuffer);
 
 
-		std::string blueVertexShaderSrc = R"(
-			#version 330 core
-			
-			layout(location=0) in vec3 a_Position;
-			layout(location=1) in vec2 a_TexCoord;
-			
-			uniform mat4 u_Transform;
-			uniform mat4 u_ViewProjection;
+		
 
-			out vec3 v_Position;
-			out vec2 v_TexCoord;
-
-			void main()
-			{
-				v_Position = a_Position;
-				v_TexCoord = a_TexCoord;
-				gl_Position =  u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-			}
-		)";
-
-		std::string blueFragmentShaderSrc = R"(
-			#version 330 core
-			
-			layout(location=0) out vec4 color;
-			
-			uniform sampler2D u_Texture;
-			uniform vec4 u_Color;
-
-			in vec3 v_Position;
-			in vec2 v_TexCoord;
-
-			void main()
-			{
-				color = texture(u_Texture, v_TexCoord);
-			}
-		)";
-
-		m_BlueShader.reset(Hydron::Shader::Create(blueVertexShaderSrc, blueFragmentShaderSrc));
+		m_TextureShader.reset(Hydron::Shader::Create("assets/shaders/Texture.glsl"));
+		m_FlatColorShader.reset(Hydron::Shader::Create("assets/shaders/FlatColor.glsl"));
 
 		m_Texture = Hydron::Texture2D::Create("assets/textures/rgb.png");
 		m_AlphaTexture = Hydron::Texture2D::Create("assets/textures/rgba.png");
 
-		std::dynamic_pointer_cast<Hydron::OpenGLShader>(m_BlueShader)->Bind();
-		std::dynamic_pointer_cast<Hydron::OpenGLShader>(m_BlueShader)->UploadUniformInt("u_Texture", 0);
+		std::dynamic_pointer_cast<Hydron::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<Hydron::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	~ExampleLayer() {}
@@ -150,8 +116,8 @@ public:
 			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
 
-			std::dynamic_pointer_cast<Hydron::OpenGLShader>(m_BlueShader)->Bind();
-			std::dynamic_pointer_cast<Hydron::OpenGLShader>(m_BlueShader)->UploadUniformFloat4("u_Color", m_Color);
+			std::dynamic_pointer_cast<Hydron::OpenGLShader>(m_FlatColorShader)->Bind();
+			std::dynamic_pointer_cast<Hydron::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat4("u_Color", m_Color);
 
 			for (int y = 0; y < 20; y++)
 			{
@@ -159,15 +125,15 @@ public:
 				{
 					glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
 					glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
-					Hydron::Renderer::Submit(m_BlueShader, m_SquareVertexArray, transform);
+					Hydron::Renderer::Submit(m_FlatColorShader, m_SquareVertexArray, transform);
 				}
 			}
 			
 			m_Texture->Bind();
-			Hydron::Renderer::Submit(m_BlueShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+			Hydron::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 			m_AlphaTexture->Bind();
-			Hydron::Renderer::Submit(m_BlueShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+			Hydron::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		}
 		Hydron::Renderer::EndScene();
 

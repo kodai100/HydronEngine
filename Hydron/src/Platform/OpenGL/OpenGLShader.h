@@ -5,11 +5,15 @@
 
 #include "Hydron/Renderer/Shader.h"
 
+// TODO: remove!
+typedef unsigned int GLenum;
+
 namespace Hydron {
 
 	class OpenGLShader : public Shader
 	{
 	public:
+		OpenGLShader(const std::string& filePath);
 		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
 		~OpenGLShader();
 
@@ -25,6 +29,12 @@ namespace Hydron {
 		void UploadUniformFloat2(const std::string& name, const glm::vec2& value);
 		void UploadUniformFloat3(const std::string& name, const glm::vec3& value);
 		void UploadUniformFloat4(const std::string& name, const glm::vec4& value);
+
+	private:
+		std::string ReadFile(const std::string& filePath);
+		std::unordered_map<GLenum, std::string> PreProcess(const std::string& shaderSource);
+		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
+
 	private:
 		uint32_t m_RendererID;
 	};
