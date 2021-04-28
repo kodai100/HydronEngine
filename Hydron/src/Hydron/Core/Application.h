@@ -12,10 +12,6 @@
 
 #include "Hydron/ImGui/ImGuiLayer.h"
 
-#include "Hydron/Renderer/Shader.h"
-#include "Hydron/Renderer/Buffer.h"
-#include "Hydron/Renderer/VertexArray.h"
-
 namespace Hydron {
 	
 	class Application
@@ -47,11 +43,6 @@ namespace Hydron {
 		LayerStack m_LayerStack;
 		float m_LastFrameTime = 0.0f;
 
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
-
-		std::shared_ptr<Shader> m_BlueShader;
-		std::shared_ptr<VertexArray> m_SquareVertexArray;
 	private:
 		static Application* s_Instance;
 		
