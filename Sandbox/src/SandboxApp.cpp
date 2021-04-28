@@ -17,7 +17,7 @@ private:
 	
 	Hydron::OrthographicCamera m_Camera;
 
-	Hydron::Ref<Hydron::Texture2D> m_Texture;
+	Hydron::Ref<Hydron::Texture2D> m_Texture, m_AlphaTexture;
 	Hydron::Ref<Hydron::Shader> m_BlueShader;
 	Hydron::Ref<Hydron::VertexArray> m_SquareVertexArray;
 
@@ -88,7 +88,8 @@ public:
 
 		m_BlueShader.reset(Hydron::Shader::Create(blueVertexShaderSrc, blueFragmentShaderSrc));
 
-		m_Texture = Hydron::Texture2D::Create("assets/textures/icon.png");
+		m_Texture = Hydron::Texture2D::Create("assets/textures/rgb.png");
+		m_AlphaTexture = Hydron::Texture2D::Create("assets/textures/rgba.png");
 
 		std::dynamic_pointer_cast<Hydron::OpenGLShader>(m_BlueShader)->Bind();
 		std::dynamic_pointer_cast<Hydron::OpenGLShader>(m_BlueShader)->UploadUniformInt("u_Texture", 0);
@@ -163,6 +164,9 @@ public:
 			}
 			
 			m_Texture->Bind();
+			Hydron::Renderer::Submit(m_BlueShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
+			m_AlphaTexture->Bind();
 			Hydron::Renderer::Submit(m_BlueShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		}
 		Hydron::Renderer::EndScene();
