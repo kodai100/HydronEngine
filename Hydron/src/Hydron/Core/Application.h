@@ -43,6 +43,8 @@ namespace Hydron {
 		LayerStack m_LayerStack;
 		float m_LastFrameTime = 0.0f;
 
+		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+
 	private:
 		static Application* s_Instance;
 		
