@@ -1,21 +1,19 @@
 #pragma once
 
+#include "RenderCommand.h"
 
 namespace Hydron {
 
-	enum class RendererAPI
-	{
-		None = 0,	// headless, test
-		OpenGL = 1,
-		DirectX = 2
-	};
-
 	class Renderer
 	{
-	private:
-		static RendererAPI s_RendererAPI;
 	public:
-		inline static RendererAPI GetAPI() { return s_RendererAPI; }
+
+		static void BeginScene();
+		static void EndScene();
+
+		static void Submit(const std::shared_ptr<VertexArray>& vertexArray);
+
+		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 	};
 
 

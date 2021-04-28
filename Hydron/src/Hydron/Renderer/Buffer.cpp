@@ -12,10 +12,10 @@ namespace Hydron {
 	{
 		switch (Renderer::GetAPI())
 		{
-			case RendererAPI::None:
+			case RendererAPI::API::None:
 				HYDRON_CORE_ASSERT(false, "RendererAPI::None is currently not supported");
 				return nullptr;
-			case RendererAPI::OpenGL:
+			case RendererAPI::API::OpenGL:
 				return new OpenGLVertexBuffer(vertices, size);
 		}
 
@@ -28,11 +28,11 @@ namespace Hydron {
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::None:
-			HYDRON_CORE_ASSERT(false, "RendererAPI::None is currently not supported");
-			return nullptr;
-		case RendererAPI::OpenGL:
-			return new OpenGLIndexBuffer(indices, size);
+			case RendererAPI::API::None:
+				HYDRON_CORE_ASSERT(false, "RendererAPI::None is currently not supported");
+				return nullptr;
+			case RendererAPI::API::OpenGL:
+				return new OpenGLIndexBuffer(indices, size);
 		}
 
 		HYDRON_CORE_ASSERT(false, "Unknown renderer API!");

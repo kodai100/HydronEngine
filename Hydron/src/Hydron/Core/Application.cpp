@@ -7,7 +7,8 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-
+#include "Hydron/Renderer/Renderer.h"
+#include "Hydron/Renderer/RenderCommand.h"
 
 namespace Hydron {
 
@@ -181,17 +182,21 @@ namespace Hydron {
 
 		while (m_Running) {
 
-			glClearColor(0.1f, 0.1f, 0.1f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
+			RenderCommand::Clear();
 
-			m_BlueShader->Bind();
-			m_SquareVertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_SquareVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::BeginScene();
+			{
 
-			m_Shader->Bind();
-			m_VertexArray->Bind();
+				m_BlueShader->Bind();
+				Renderer::Submit(m_SquareVertexArray);
 
-			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+				m_Shader->Bind();
+				Renderer::Submit(m_VertexArray);
+
+			}
+			Renderer::EndScene();
+
 
 			float time = (float)glfwGetTime();
 			Timestep timestep = time - m_LastFrameTime;
