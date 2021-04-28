@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Hydron/Core/Window.h"
+#include "Hydron/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>
 
@@ -29,6 +30,7 @@ namespace Hydron {
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData
 		{
