@@ -17,11 +17,11 @@ private:
 	
 	Hydron::OrthographicCamera m_Camera;
 
-	std::shared_ptr<Hydron::Shader> m_Shader;
-	std::shared_ptr<Hydron::VertexArray> m_VertexArray;
+	Hydron::Ref<Hydron::Shader> m_Shader;
+	Hydron::Ref<Hydron::VertexArray> m_VertexArray;
 
-	std::shared_ptr<Hydron::Shader> m_BlueShader;
-	std::shared_ptr<Hydron::VertexArray> m_SquareVertexArray;
+	Hydron::Ref<Hydron::Shader> m_BlueShader;
+	Hydron::Ref<Hydron::VertexArray> m_SquareVertexArray;
 
 public:
 	ExampleLayer() : Layer("Example Layer"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition({0,0,0})
@@ -34,7 +34,7 @@ public:
 			0.0f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f
 		};
 
-		std::shared_ptr<Hydron::VertexBuffer> triangleVertexBuffer;
+		Hydron::Ref<Hydron::VertexBuffer> triangleVertexBuffer;
 		triangleVertexBuffer.reset(Hydron::VertexBuffer::Create(vertices, sizeof(vertices)));
 		Hydron::BufferLayout layout = {
 			{Hydron::ShaderDataType::Float3, "a_Position" },
@@ -48,7 +48,7 @@ public:
 		unsigned int indices[3] = {
 			0, 1, 2
 		};
-		std::shared_ptr<Hydron::IndexBuffer> triangleIndexBuffer;
+		Hydron::Ref<Hydron::IndexBuffer> triangleIndexBuffer;
 		triangleIndexBuffer.reset(Hydron::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		m_VertexArray->SetIndexBuffer(triangleIndexBuffer);
 
@@ -62,7 +62,7 @@ public:
 			 0.5f,  0.5f, 0.0f,
 			-0.5f,  0.5f, 0.0f
 		};
-		std::shared_ptr<Hydron::VertexBuffer> squareVertexBuffer;
+		Hydron::Ref<Hydron::VertexBuffer> squareVertexBuffer;
 		squareVertexBuffer.reset(Hydron::VertexBuffer::Create(sqVertices, sizeof(sqVertices)));
 		squareVertexBuffer->SetLayout({
 			{Hydron::ShaderDataType::Float3, "a_Position" }
@@ -72,7 +72,7 @@ public:
 		unsigned int sqIndices[6] = {
 			0, 1, 2, 2, 3, 0
 		};
-		std::shared_ptr<Hydron::IndexBuffer> squareIndexBuffer;
+		Hydron::Ref<Hydron::IndexBuffer> squareIndexBuffer;
 		squareIndexBuffer.reset(Hydron::IndexBuffer::Create(sqIndices, sizeof(sqIndices) / sizeof(uint32_t)));
 		m_SquareVertexArray->SetIndexBuffer(squareIndexBuffer);
 

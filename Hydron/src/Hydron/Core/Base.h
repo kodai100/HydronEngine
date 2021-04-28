@@ -4,6 +4,8 @@
 
 #include <memory>
 
+#include "Hydron/Core/Log.h"
+#include "Hydron/Core/Assert.h"
 #include "Hydron/Core/PlatformDetection.h"
 
 #ifdef HYDRON_DEBUG
@@ -28,7 +30,7 @@
 
 #define HYDRON_BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
 
-namespace Hazel {
+namespace Hydron {
 
 	template<typename T>
 	using Scope = std::unique_ptr<T>;
@@ -48,5 +50,3 @@ namespace Hazel {
 
 }
 
-#include "Hydron/Core/Log.h"
-#include "Hydron/Core/Assert.h"
