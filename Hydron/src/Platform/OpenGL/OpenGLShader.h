@@ -14,11 +14,13 @@ namespace Hydron {
 	{
 	public:
 		OpenGLShader(const std::string& filePath);
-		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
+		OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
 		~OpenGLShader();
 
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
+
+		virtual const std::string& GetName() const override { return m_Name; }
 
 		void UploadUniformInt(const std::string& name, const int value);
 
@@ -36,6 +38,7 @@ namespace Hydron {
 		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
 
 	private:
+		std::string m_Name;
 		uint32_t m_RendererID;
 	};
 
