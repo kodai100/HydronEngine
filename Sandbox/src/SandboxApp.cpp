@@ -17,57 +17,28 @@ private:
 	
 	Hydron::OrthographicCamera m_Camera;
 
-	Hydron::Ref<Hydron::Shader> m_Shader;
-	Hydron::Ref<Hydron::VertexArray> m_VertexArray;
-
 	Hydron::Ref<Hydron::Shader> m_BlueShader;
 	Hydron::Ref<Hydron::VertexArray> m_SquareVertexArray;
 
 public:
-	ExampleLayer() : Layer("Example Layer"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition({0,0,0})
+	ExampleLayer() : Layer("Example Layer"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition({ 0,0,0 }), m_Color({0,1,1,1})
 	{
-		m_VertexArray.reset(Hydron::VertexArray::Create());
-
-		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-			0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-			0.0f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f
-		};
-
-		Hydron::Ref<Hydron::VertexBuffer> triangleVertexBuffer;
-		triangleVertexBuffer.reset(Hydron::VertexBuffer::Create(vertices, sizeof(vertices)));
-		Hydron::BufferLayout layout = {
-			{Hydron::ShaderDataType::Float3, "a_Position" },
-			{Hydron::ShaderDataType::Float4, "a_Color" }
-		};
-		triangleVertexBuffer->SetLayout(layout);
-		m_VertexArray->AddVertexBuffer(triangleVertexBuffer);
-
-
-
-		unsigned int indices[3] = {
-			0, 1, 2
-		};
-		Hydron::Ref<Hydron::IndexBuffer> triangleIndexBuffer;
-		triangleIndexBuffer.reset(Hydron::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
-		m_VertexArray->SetIndexBuffer(triangleIndexBuffer);
-
-
-		// ---------------------------------
 
 		m_SquareVertexArray.reset(Hydron::VertexArray::Create());
-		float sqVertices[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f
+		float sqVertices[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 		Hydron::Ref<Hydron::VertexBuffer> squareVertexBuffer;
 		squareVertexBuffer.reset(Hydron::VertexBuffer::Create(sqVertices, sizeof(sqVertices)));
 		squareVertexBuffer->SetLayout({
-			{Hydron::ShaderDataType::Float3, "a_Position" }
-			});
+			{Hydron::ShaderDataType::Float3, "a_Position" },
+			{Hydron::ShaderDataType::Float2, "a_TexCoord" }
+		});
 		m_SquareVertexArray->AddVertexBuffer(squareVertexBuffer);
+
 
 		unsigned int sqIndices[6] = {
 			0, 1, 2, 2, 3, 0
@@ -77,57 +48,22 @@ public:
 		m_SquareVertexArray->SetIndexBuffer(squareIndexBuffer);
 
 
-		std::string vertexSrc = R"(
-			#version 330 core
-			
-			layout(location=0) in vec3 a_Position;
-			layout(location=1) in vec4 a_Color;
-			
-			uniform mat4 u_Transform;
-			uniform mat4 u_ViewProjection;
-
-			out vec3 v_Position;
-			out vec4 v_Color;
-
-			void main()
-			{
-				v_Position = a_Position;
-				v_Color = a_Color;
-				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-			}
-		)";
-
-		std::string fragmentSrc = R"(
-			#version 330 core
-			
-			layout(location=0) out vec4 color;
-
-			in vec3 v_Position;
-			in vec4 v_Color;
-
-			void main()
-			{
-				color = v_Color;
-			}
-		)";
-
-
-		m_Shader.reset(Hydron::Shader::Create(vertexSrc, fragmentSrc));
-
-
 		std::string blueVertexShaderSrc = R"(
 			#version 330 core
 			
 			layout(location=0) in vec3 a_Position;
+			layout(location=1) in vec2 a_TexCoord;
 			
 			uniform mat4 u_Transform;
 			uniform mat4 u_ViewProjection;
 
 			out vec3 v_Position;
+			out vec2 v_TexCoord;
 
 			void main()
 			{
 				v_Position = a_Position;
+				v_TexCoord = a_TexCoord;
 				gl_Position =  u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
@@ -140,10 +76,11 @@ public:
 			uniform vec4 u_Color;
 
 			in vec3 v_Position;
+			in vec2 v_TexCoord;
 
 			void main()
 			{
-				color = u_Color;
+				color = vec4(v_TexCoord, 0.0, 1.0);
 			}
 		)";
 
@@ -218,7 +155,7 @@ public:
 				}
 			}
 			
-			Hydron::Renderer::Submit(m_Shader, m_VertexArray);
+			Hydron::Renderer::Submit(m_BlueShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		}
 		Hydron::Renderer::EndScene();
 
