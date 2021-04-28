@@ -12,6 +12,8 @@
 
 #include "Hydron/ImGui/ImGuiLayer.h"
 
+#include "Hydron/Renderer/Shader.h"
+
 namespace Hydron {
 	
 	class Application
@@ -44,6 +46,7 @@ namespace Hydron {
 		float m_LastFrameTime = 0.0f;
 
 		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		std::unique_ptr<Shader> m_Shader;
 
 	private:
 		static Application* s_Instance;
