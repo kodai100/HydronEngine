@@ -23,6 +23,7 @@
 #include "Hydron/Renderer/Renderer.h"
 #include "Hydron/Renderer/RenderCommand.h"
 #include "Hydron/Renderer/Shader.h"
+#include "Hydron/Renderer/Texture.h"
 #include "Hydron/Renderer/Buffer.h"
 #include "Hydron/Renderer/VertexArray.h"
 
