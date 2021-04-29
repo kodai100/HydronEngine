@@ -29,8 +29,6 @@
 #include "Hydron/Renderer/FrameBuffer.h"
 
 #include "Hydron/Renderer/EditorCamera.h"
-#include "Hydron/Renderer/OrthographicCamera.h"
-#include "Hydron/Renderer/OrthographicCameraController.h"
 
 // Utility -----------------------------------------------
 
