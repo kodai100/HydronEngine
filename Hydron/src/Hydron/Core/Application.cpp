@@ -97,6 +97,11 @@ namespace Hydron {
 
 	}
 
+	void Application::Close()
+	{
+		m_Running = false;
+	}
+
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
 

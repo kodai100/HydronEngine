@@ -26,6 +26,7 @@
 #include "Hydron/Renderer/Texture.h"
 #include "Hydron/Renderer/Buffer.h"
 #include "Hydron/Renderer/VertexArray.h"
+#include "Hydron/Renderer/FrameBuffer.h"
 
 #include "Hydron/Renderer/OrthographicCamera.h"
 #include "Hydron/Renderer/OrthographicCameraController.h"
