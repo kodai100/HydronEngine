@@ -18,6 +18,7 @@ IncludeDir["Glad"] = "Hydron/vendor/Glad/include"
 IncludeDir["ImGui"] = "Hydron/vendor/imgui"
 IncludeDir["glm"] = "Hydron/vendor/glm"
 IncludeDir["stb"] = "Hydron/vendor/stb"
+IncludeDir["fbx"] = "C:/Program Files/Autodesk/FBX/FBX SDK/2020.2"
 
 group "Dependencies"
 	include "Hydron/vendor/GLFW"
@@ -56,7 +57,8 @@ project "Hydron"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb}"
+		"%{IncludeDir.stb}",
+		"%{IncludeDir.fbx}/include"
 	}
 
 	links
@@ -64,7 +66,15 @@ project "Hydron"
 		"GLFW",
 		"Glad",
 		"ImGui",
-		"opengl32.lib"
+		"opengl32.lib",
+		"libfbxsdk.lib",
+		"libfbxsdk-mt.lib",
+		"zlib-mt.lib"
+	}
+
+	postbuildcommands
+	{
+		("{COPY} \"%{IncludeDir.fbx}/lib/vs2019/x64/%{cfg.buildcfg}/libfbxsdk.dll\" \"../bin/" .. outputdir .. "/Sandbox/\"")
 	}
 
 	filter "system:windows"
@@ -81,11 +91,19 @@ project "Hydron"
 		defines "HYDRON_DEBUG"
 		runtime "Debug"
 		symbols "on"
+		libdirs
+		{
+			"%{IncludeDir.fbx}/lib/vs2019/x64/debug"
+		}
 
 	filter "configurations:Release"
 		defines "HYDRON_RELEASE"
 		runtime "Release"
 		optimize "on"
+		libdirs
+		{
+			"%{IncludeDir.fbx}/lib/vs2019/x64/release"
+		}
 
 	filter "configurations:Dist"
 		defines "HYDRON_DIST"
@@ -113,7 +131,8 @@ project "Sandbox"
 		"Hydron/vendor/spdlog/include",
 		"Hydron/src",
 		"Hydron/vendor",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.fbx}/include"
 	}
 
 	links

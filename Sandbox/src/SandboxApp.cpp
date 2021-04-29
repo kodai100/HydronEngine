@@ -6,6 +6,7 @@
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
+#include "fbxsdk.h"
 
 class ExampleLayer : public Hydron::Layer
 {
@@ -32,6 +33,9 @@ public:
 	ExampleLayer()
 		: Layer("Example Layer"), m_Color({0,1,1,1})
 	{
+
+		fbxsdk::FbxManager* manager = fbxsdk::FbxManager::Create();
+		manager->Destroy();
 
 		// Frame Buffer Initialization
 		Hydron::FrameBufferSpecification fbSpec;
