@@ -110,7 +110,7 @@ public:
 			}*/
 			
 			m_Texture->Bind();
-			Hydron::Renderer::Submit(textureShader, m_Mesh->ConstructVertexArray());
+			Hydron::Renderer::Submit(textureShader, m_Mesh->ConstructVertexArray(), glm::scale(glm::mat4(1.0f), glm::vec3(10.0f)));
 
 			/*m_AlphaTexture->Bind();
 			Hydron::Renderer::Submit(textureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));*/

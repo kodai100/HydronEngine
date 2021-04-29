@@ -58,19 +58,7 @@ namespace Hydron{
 
 		std::vector<float> vertexData;
 
-		float sqVertices[8 * 4] = {
-			-0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
-			 0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
-			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
-			-0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f
-		};
-
-		for (int i = 0; i < 32; i++)
-		{
-			vertexData.push_back(sqVertices[i]);
-		}
-		
-		/*for (int i = 0; i < m_Positions.size(); i++)
+		for (int i = 0; i < m_Positions.size(); i++)
 		{
 			vertexData.push_back(m_Positions[i].x);
 			vertexData.push_back(m_Positions[i].y);
@@ -80,11 +68,11 @@ namespace Hydron{
 			vertexData.push_back(m_Normals[i].z);
 			vertexData.push_back(m_Uvs[i].x);
 			vertexData.push_back(m_Uvs[i].y);
-		}*/
+		}
 
 		m_VertexArray.reset(Hydron::VertexArray::Create());
 		Hydron::Ref<Hydron::VertexBuffer> meshVertexBuffer;
-		meshVertexBuffer.reset(Hydron::VertexBuffer::Create(sqVertices, sizeof(sqVertices)));
+		meshVertexBuffer.reset(Hydron::VertexBuffer::Create(&vertexData[0], sizeof(float) * vertexData.size()));
 		meshVertexBuffer->SetLayout({
 			{Hydron::ShaderDataType::Float3, "a_Position" },
 			{Hydron::ShaderDataType::Float3, "a_Normal" },
@@ -94,11 +82,8 @@ namespace Hydron{
 
 
 		// Create index array
-		unsigned int sqIndices[6] = {
-			0, 1, 2, 2, 3, 0
-		};
 		Hydron::Ref<Hydron::IndexBuffer> squareIndexBuffer;
-		squareIndexBuffer.reset(Hydron::IndexBuffer::Create(sqIndices, sizeof(sqIndices) / sizeof(uint32_t)));
+		squareIndexBuffer.reset(Hydron::IndexBuffer::Create(&m_Indices[0], m_Indices.size()));
 		m_VertexArray->SetIndexBuffer(squareIndexBuffer);
 
 		m_AlreadyConstruct = true;
