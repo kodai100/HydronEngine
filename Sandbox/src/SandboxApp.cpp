@@ -6,7 +6,6 @@
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
-#include "fbxsdk.h"
 
 class ExampleLayer : public Hydron::Layer
 {
@@ -17,7 +16,6 @@ private:
 	glm::vec4 m_Color;
 
 	Hydron::Ref<Hydron::Texture2D> m_Texture, m_AlphaTexture;
-	Hydron::Ref<Hydron::VertexArray> m_SquareVertexArray;
 
 	Hydron::ShaderLibrary m_ShaderLibrary;
 
@@ -34,8 +32,9 @@ public:
 		: Layer("Example Layer"), m_Color({0,1,1,1})
 	{
 
-		fbxsdk::FbxManager* manager = fbxsdk::FbxManager::Create();
-		manager->Destroy();
+		Hydron::FBXImporter* importer = new Hydron::FBXImporter("assets/fbx/bunny.fbx");
+
+		delete importer;
 
 		// Frame Buffer Initialization
 		Hydron::FrameBufferSpecification fbSpec;
@@ -46,28 +45,7 @@ public:
 
 		m_EditorCamera = Hydron::EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
-		m_SquareVertexArray.reset(Hydron::VertexArray::Create());
-		float sqVertices[5 * 4] = {
-			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
-		};
-		Hydron::Ref<Hydron::VertexBuffer> squareVertexBuffer;
-		squareVertexBuffer.reset(Hydron::VertexBuffer::Create(sqVertices, sizeof(sqVertices)));
-		squareVertexBuffer->SetLayout({
-			{Hydron::ShaderDataType::Float3, "a_Position" },
-			{Hydron::ShaderDataType::Float2, "a_TexCoord" }
-		});
-		m_SquareVertexArray->AddVertexBuffer(squareVertexBuffer);
-
-
-		unsigned int sqIndices[6] = {
-			0, 1, 2, 2, 3, 0
-		};
-		Hydron::Ref<Hydron::IndexBuffer> squareIndexBuffer;
-		squareIndexBuffer.reset(Hydron::IndexBuffer::Create(sqIndices, sizeof(sqIndices) / sizeof(uint32_t)));
-		m_SquareVertexArray->SetIndexBuffer(squareIndexBuffer);
+		
 
 
 		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
@@ -120,7 +98,7 @@ public:
 			std::dynamic_pointer_cast<Hydron::OpenGLShader>(flatShader)->Bind();
 			std::dynamic_pointer_cast<Hydron::OpenGLShader>(flatShader)->UploadUniformFloat4("u_Color", m_Color);
 
-			for (int y = 0; y < 20; y++)
+			/*for (int y = 0; y < 20; y++)
 			{
 				for (int x = 0; x < 20; x++)
 				{
@@ -134,7 +112,7 @@ public:
 			Hydron::Renderer::Submit(textureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 			m_AlphaTexture->Bind();
-			Hydron::Renderer::Submit(textureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+			Hydron::Renderer::Submit(textureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));*/
 		}
 		Hydron::Renderer::EndScene();
 
