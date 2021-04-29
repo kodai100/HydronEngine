@@ -35,5 +35,5 @@ in vec2 v_TexCoord;
 
 void main()
 {
-	color = texture(u_Texture, v_TexCoord);
+	color = vec4(v_Normal * 0.5 + 0.5, 1.0);
 }

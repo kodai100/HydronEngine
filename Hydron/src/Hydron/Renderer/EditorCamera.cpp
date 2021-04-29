@@ -29,6 +29,8 @@ namespace Hydron {
 		// m_Yaw = m_Pitch = 0.0f; // Lock the camera's rotation
 		m_Position = CalculatePosition();
 
+		HYDRON_CORE_INFO("{0} {1}, {2}", m_Position.x, m_Position.y, m_Position.z);
+
 		glm::quat orientation = GetOrientation();
 		m_ViewMatrix = glm::translate(glm::mat4(1.0f), m_Position) * glm::toMat4(orientation);
 		m_ViewMatrix = glm::inverse(m_ViewMatrix);
@@ -129,6 +131,7 @@ namespace Hydron {
 
 	glm::vec3 EditorCamera::GetForwardDirection() const
 	{
+		
 		return glm::rotate(GetOrientation(), glm::vec3(0.0f, 0.0f, -1.0f));
 	}
 

@@ -27,21 +27,15 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), m_Color({ 0,1,1,1 })
 
 
 
-	auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
+	auto textureShader = m_ShaderLibrary.Load("assets/shaders/TextureShaded.glsl");
 	auto flatShader = m_ShaderLibrary.Load("assets/shaders/FlatColor.glsl");
 
-	m_Texture = Hydron::Texture2D::Create("assets/textures/rgb.png");
+	m_Texture = Hydron::Texture2D::Create("assets/textures/bunny.png");
 	m_AlphaTexture = Hydron::Texture2D::Create("assets/textures/rgba.png");
 
 	std::dynamic_pointer_cast<Hydron::OpenGLShader>(textureShader)->Bind();
 	std::dynamic_pointer_cast<Hydron::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 
-
-	Scene* scene = Scene::snowman();
-	//Scene* scene = Scene::snowballSmash();
-	//Scene* scene = Scene::highspeedSnowballSmash();
-
-	snowSimulation = new SnowSimulation(scene);
 }
 
 void ExampleLayer::OnUpdate(Hydron::Timestep ts)
@@ -76,7 +70,7 @@ void ExampleLayer::OnUpdate(Hydron::Timestep ts)
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-		auto textureShader = m_ShaderLibrary.Get("Texture");
+		auto textureShader = m_ShaderLibrary.Get("TextureShaded");
 		auto flatShader = m_ShaderLibrary.Get("FlatColor");
 
 		std::dynamic_pointer_cast<Hydron::OpenGLShader>(flatShader)->Bind();
@@ -93,21 +87,13 @@ void ExampleLayer::OnUpdate(Hydron::Timestep ts)
 		}*/
 
 		m_Texture->Bind();
-		Hydron::Renderer::Submit(textureShader, m_Mesh->ConstructVertexArray(), glm::scale(glm::mat4(1.0f), glm::vec3(10.0f)));
+		Hydron::Renderer::Submit(textureShader, m_Mesh->ConstructVertexArray(), m_EditorCamera, glm::scale(glm::mat4(1.0f), glm::vec3(10.0f)));
 
 		/*m_AlphaTexture->Bind();
 		Hydron::Renderer::Submit(textureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));*/
 	}
+
 	Hydron::Renderer::EndScene();
-
-
-	snowSimulation->update();
-
-	// Draw grid
-	snowSimulation->grid->draw();
-
-	// Draw snow
-	snowSimulation->snow->draw();
 
 
 	m_FrameBuffer->Unbind();
