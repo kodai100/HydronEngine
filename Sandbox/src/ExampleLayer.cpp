@@ -8,6 +8,8 @@
 
 #include "Hydron/Util/FBXImporter.h"
 
+
+
 ExampleLayer::ExampleLayer() : Layer("Example Layer"), m_Color({ 0,1,1,1 })
 {
 
@@ -33,6 +35,13 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), m_Color({ 0,1,1,1 })
 
 	std::dynamic_pointer_cast<Hydron::OpenGLShader>(textureShader)->Bind();
 	std::dynamic_pointer_cast<Hydron::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
+
+
+	Scene* scene = Scene::snowman();
+	//Scene* scene = Scene::snowballSmash();
+	//Scene* scene = Scene::highspeedSnowballSmash();
+
+	snowSimulation = new SnowSimulation(scene);
 }
 
 void ExampleLayer::OnUpdate(Hydron::Timestep ts)
@@ -90,6 +99,15 @@ void ExampleLayer::OnUpdate(Hydron::Timestep ts)
 		Hydron::Renderer::Submit(textureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));*/
 	}
 	Hydron::Renderer::EndScene();
+
+
+	snowSimulation->update();
+
+	// Draw grid
+	snowSimulation->grid->draw();
+
+	// Draw snow
+	snowSimulation->snow->draw();
 
 
 	m_FrameBuffer->Unbind();

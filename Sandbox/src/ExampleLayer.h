@@ -2,6 +2,8 @@
 
 #include "Hydron.h"
 
+#include "Snow/SnowSimulation.h"
+
 class ExampleLayer : public Hydron::Layer
 {
 
@@ -19,6 +21,8 @@ public:
 
 private:
 	float t = 0;
+
+	SnowSimulation* snowSimulation;
 
 	float m_CameraMoveSpeed = 1;
 	glm::vec4 m_Color;
