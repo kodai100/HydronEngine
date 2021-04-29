@@ -31,9 +31,4 @@
 #include "Hydron/Renderer/EditorCamera.h"
 
 // Utility -----------------------------------------------
-
-
-
-// Entry point -------------------------------------------
-
-#include "Hydron/EntryPoint.h"
+#include "Hydron/Geometry/Mesh.h"
