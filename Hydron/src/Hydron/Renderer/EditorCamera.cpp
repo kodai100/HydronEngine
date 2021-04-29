@@ -56,7 +56,7 @@ namespace Hydron {
 		float distance = m_Distance * 0.2f;
 		distance = std::max(distance, 0.0f);
 		float speed = distance * distance;
-		speed = std::min(speed, 100.0f); // max speed = 100
+		speed = std::min(speed, 200.0f); // max speed = 100
 		return speed;
 	}
 
@@ -73,7 +73,7 @@ namespace Hydron {
 			else if (Input::IsMouseButtonPressed(Mouse::ButtonLeft))
 				MouseRotate(delta);
 			else if (Input::IsMouseButtonPressed(Mouse::ButtonRight))
-				MouseZoom(delta.y);
+				MouseZoom(delta.x - delta.y);
 		}
 
 		UpdateView();
@@ -87,7 +87,7 @@ namespace Hydron {
 
 	bool EditorCamera::OnMouseScroll(MouseScrolledEvent& e)
 	{
-		float delta = e.GetYOffset() * 0.1f;
+		float delta = e.GetYOffset() * 0.4f;
 		MouseZoom(delta);
 		UpdateView();
 		return false;
