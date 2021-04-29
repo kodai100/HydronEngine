@@ -67,8 +67,8 @@ project "Hydron"
 		"Glad",
 		"ImGui",
 		"opengl32.lib",
-		"libfbxsdk.lib",
 		"libfbxsdk-mt.lib",
+		"libxml2-mt",
 		"zlib-mt.lib"
 	}
 

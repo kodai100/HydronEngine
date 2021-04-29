@@ -48,7 +48,7 @@ namespace Hydron {
 
 	float EditorCamera::RotationSpeed() const
 	{
-		return 0.8f;
+		return 2.0f;
 	}
 
 	float EditorCamera::ZoomSpeed() const
