@@ -6,6 +6,7 @@
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
+#include "Hydron/Util/FBXImporter.h"
 
 class ExampleLayer : public Hydron::Layer
 {
@@ -21,6 +22,8 @@ private:
 
 	Hydron::Ref<Hydron::FrameBuffer> m_FrameBuffer;
 
+	Hydron::Ref<Hydron::Mesh> m_Mesh;
+
 	bool m_ViewportFocused = false, m_ViewportHovered = false;
 	glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
 	glm::vec2 m_ViewportBounds[2];
@@ -32,9 +35,7 @@ public:
 		: Layer("Example Layer"), m_Color({0,1,1,1})
 	{
 
-		Hydron::FBXImporter* importer = new Hydron::FBXImporter("assets/fbx/bunny.fbx");
-
-		delete importer;
+		m_Mesh.reset(Hydron::FBXImporter::Load("assets/fbx/bunny.fbx"));
 
 		// Frame Buffer Initialization
 		Hydron::FrameBufferSpecification fbSpec;
@@ -106,12 +107,12 @@ public:
 					glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
 					Hydron::Renderer::Submit(flatShader, m_SquareVertexArray, transform);
 				}
-			}
+			}*/
 			
 			m_Texture->Bind();
-			Hydron::Renderer::Submit(textureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+			Hydron::Renderer::Submit(textureShader, m_Mesh->ConstructVertexArray());
 
-			m_AlphaTexture->Bind();
+			/*m_AlphaTexture->Bind();
 			Hydron::Renderer::Submit(textureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));*/
 		}
 		Hydron::Renderer::EndScene();

@@ -1,20 +1,17 @@
 #include "pch.h"
 #include "FBXImporter.h"
 
-#include<iostream>
-#include<fbxsdk.h>
-
 namespace Hydron
 {
 
-    FBXImporter::FBXImporter(const std::string& filePath)
+    Mesh* FBXImporter::Load(const std::string& filePath)
     {
 
         FbxManager* manager = FbxManager::Create();
 
         if (manager == NULL) {
             HYDRON_CORE_ERROR("FBX Manager initialization failed!");
-            return;
+            return nullptr;
         }
 
         FbxIOSettings* ios = FbxIOSettings::Create(manager, IOSROOT); // 入出力設定を作成する
@@ -26,7 +23,7 @@ namespace Hydron
         if (!importer->Initialize(filePath.c_str(), -1, manager->GetIOSettings())) {
             manager->Destroy();
             HYDRON_CORE_ERROR("FBX load error!");
-            return;
+            return nullptr;
         }
         
         FbxScene* scene = FbxScene::Create(manager, "");    // FBXシーン(3D空間を構成するオブジェクト情報)を初期化する
@@ -35,7 +32,7 @@ namespace Hydron
         if (!importer->Import(scene)) {
             manager->Destroy();
             HYDRON_CORE_ERROR("FBX scene import error!");
-            return;
+            return nullptr;
         }
         
         importer->Destroy();    // シーンの読み込みが完了すればインポータは不要なので破棄する
@@ -51,49 +48,77 @@ namespace Hydron
             scene->Destroy();
             manager->Destroy();
             HYDRON_CORE_ERROR("Failed to load model");
-            return;
+            return nullptr;
         }
 
-
-        // Model Asset作成
-        ModelAsset model_asset;
-
-        LoadVertex(model_asset, *mesh);
-        LoadIndices(model_asset, *mesh);
-
-        HYDRON_CORE_INFO("Index : {0}", model_asset.indices_count);
-        HYDRON_CORE_INFO("Vert : {0}", model_asset.vertices_count);
+        auto m = LoadInternal(*mesh);
 
         scene->Destroy();
         manager->Destroy();
+
+        return m;
     }
 
     
-    void FBXImporter::LoadIndices(ModelAsset& model_asset, FbxMesh& mesh)
-    {
-        int polygon_vertex_count = mesh.GetPolygonVertexCount();
-        model_asset.indices_count = polygon_vertex_count;
-        model_asset.indices = new uint32_t[polygon_vertex_count];
 
-        for (int i = 0; i < polygon_vertex_count; i++) {
-            model_asset.indices[i] = mesh.GetPolygonVertices()[i];
+    Mesh* FBXImporter::LoadInternal(FbxMesh& mesh)
+    {
+
+        Mesh* hMesh = new Mesh();
+
+        {
+            // 頂点配列
+            int indexCount = mesh.GetPolygonVertexCount();
+
+            // TIPS:FBXは保持している頂点座標数と法線数とUV数が一致しないので
+            //      頂点配列から展開してTriMeshに格納している(T^T)
+            int* index = mesh.GetPolygonVertices();
+            for (int i = 0; i < indexCount; ++i)
+            {
+                auto controlPoint = mesh.GetControlPointAt(index[i]);
+                hMesh->PushPosition(glm::vec3(controlPoint[0], controlPoint[1], controlPoint[2]));
+            }
+
+            for (int i = 0; i < indexCount; i += 3)
+            {
+                hMesh->PushTriangle(i, i + 1, i + 2);
+            }
         }
+
+        {
+            // 頂点法線
+            FbxArray<FbxVector4> normals;
+            mesh.GetPolygonVertexNormals(normals);
+
+            for (int i = 0; i < normals.Size(); ++i)
+            {
+                const FbxVector4& n = normals[i];
+                hMesh->PushNormal(glm::vec3(n[0], n[1], n[2]));
+            }
+        }
+
+        {
+            // UV
+            FbxStringList uvsetName;
+            mesh.GetUVSetNames(uvsetName);
+
+            if (uvsetName.GetCount() > 0)
+            {
+
+                FbxArray<FbxVector2> uvsets;
+                mesh.GetPolygonVertexUVs(uvsetName.GetStringAt(0), uvsets);
+
+                for (int i = 0; i < uvsets.Size(); ++i)
+                {
+                    const FbxVector2& uv = uvsets[i];
+                    hMesh->PushUv(glm::vec2(uv[0], uv[1]));
+                }
+            }
+        }
+
+        return hMesh;
+
     }
 
-    void FBXImporter::LoadVertex(ModelAsset& model_asset, FbxMesh& mesh)
-    {
-        int control_points_count = mesh.GetControlPointsCount();
-        model_asset.vertices_count = control_points_count;
-        model_asset.vertices = new Vertex[control_points_count];
 
-        for (int i = 0; i < control_points_count; i++) {
-            FbxVector4 point = mesh.GetControlPointAt(i);
-            Vertex vertex;
-            vertex.position[0] = point[0];
-            vertex.position[1] = point[1];
-            vertex.position[2] = point[2];
-
-            model_asset.vertices[i] = vertex;
-        }
-    }
 }

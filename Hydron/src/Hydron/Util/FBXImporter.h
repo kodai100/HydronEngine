@@ -4,7 +4,7 @@
 
 #include <fbxsdk.h>
 
-#include "Hydron/Geometry/ModelAsset.h"
+#include "Hydron/Geometry/Mesh.h"
 
 namespace Hydron
 {
@@ -14,11 +14,12 @@ namespace Hydron
 	{
 
 	public:
-		FBXImporter(const std::string& filePath);
+		FBXImporter() {}
+
+		static Mesh* Load(const std::string& filePath);
 
 	private:
-		static void LoadVertex(ModelAsset& model_asset, FbxMesh& mesh);
-		static void LoadIndices(ModelAsset& model_asset, FbxMesh& mesh);
+		static Mesh* LoadInternal(FbxMesh& mesh);
 	};
 
 }
