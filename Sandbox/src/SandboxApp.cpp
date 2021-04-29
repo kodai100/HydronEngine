@@ -20,17 +20,17 @@ private:
 
 	Hydron::ShaderLibrary m_ShaderLibrary;
 
-	Hydron::OrthographicCameraController m_CameraController;
-
 	Hydron::Ref<Hydron::FrameBuffer> m_FrameBuffer;
 
 	bool m_ViewportFocused = false, m_ViewportHovered = false;
 	glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
 	glm::vec2 m_ViewportBounds[2];
 
+	Hydron::EditorCamera m_EditorCamera;
+
 public:
 	ExampleLayer()
-		: Layer("Example Layer"), m_Color({0,1,1,1}), m_CameraController(1280.0f/720.0f)
+		: Layer("Example Layer"), m_Color({0,1,1,1})
 	{
 
 		// Frame Buffer Initialization
@@ -39,6 +39,8 @@ public:
 		fbSpec.Width = 1280;
 		fbSpec.Height = 720;
 		m_FrameBuffer = Hydron::FrameBuffer::Create(fbSpec);
+
+		m_EditorCamera = Hydron::EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
 		m_SquareVertexArray.reset(Hydron::VertexArray::Create());
 		float sqVertices[5 * 4] = {
@@ -86,11 +88,10 @@ public:
 			(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_FrameBuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+			m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 		}
 
-		if (m_ViewportFocused)
-			m_CameraController.OnUpdate(ts);
+		m_EditorCamera.OnUpdate(ts);
 
 		/*Hydron::Material material = new Hydron::Material(m_BlueShader);
 		Hydron::MaterialInstance mi = new Hydron::MaterialInstance(material);
@@ -104,7 +105,7 @@ public:
 
 		m_FrameBuffer->ClearAttachment(1, -1);
 
-		Hydron::Renderer::BeginScene(m_CameraController.GetCamera());
+		Hydron::Renderer::BeginScene(m_EditorCamera);
 		{
 
 			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
@@ -142,8 +143,7 @@ public:
 
 	void ExampleLayer::OnEvent(Hydron::Event& e) override
 	{
-
-		m_CameraController.OnEvent(e);
+		m_EditorCamera.OnEvent(e);
 	}
 
 	void ExampleLayer::OnImGuiRender()

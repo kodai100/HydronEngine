@@ -19,9 +19,9 @@ namespace Hydron {
 	}
 
 
-	void Renderer::BeginScene(OrthographicCamera& camera)
+	void Renderer::BeginScene(EditorCamera& camera)
 	{
-		m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
+		m_SceneData->ViewProjectionMatrix = camera.GetViewProjection();
 	}
 
 	void Renderer::EndScene()
