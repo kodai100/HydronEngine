@@ -22,9 +22,7 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), m_Color({ 0,1,1,1 })
 	fbSpec.Height = 720;
 	m_FrameBuffer = Hydron::FrameBuffer::Create(fbSpec);
 
-	m_EditorCamera = Hydron::EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
-
-
+	m_EditorCamera = std::make_shared<Hydron::EditorCamera>(30.0f, 1.778f, 0.1f, 1000.0f);
 
 
 	auto textureShader = m_ShaderLibrary.Load("assets/shaders/TextureShaded.glsl");
@@ -48,10 +46,10 @@ void ExampleLayer::OnUpdate(Hydron::Timestep ts)
 		(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 	{
 		m_FrameBuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-		m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
+		m_EditorCamera->SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 	}
 
-	m_EditorCamera.OnUpdate(ts);
+	m_EditorCamera->OnUpdate(ts);
 
 	/*Hydron::Material material = new Hydron::Material(m_BlueShader);
 	Hydron::MaterialInstance mi = new Hydron::MaterialInstance(material);
@@ -87,7 +85,7 @@ void ExampleLayer::OnUpdate(Hydron::Timestep ts)
 		}*/
 
 		m_Texture->Bind();
-		Hydron::Renderer::Submit(textureShader, m_Mesh->ConstructVertexArray(), m_EditorCamera, glm::scale(glm::mat4(1.0f), glm::vec3(10.0f)));
+		Hydron::Renderer::Submit(textureShader, m_Mesh->ConstructVertexArray(), glm::scale(glm::mat4(1.0f), glm::vec3(10.0f)));
 
 		/*m_AlphaTexture->Bind();
 		Hydron::Renderer::Submit(textureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));*/
@@ -101,7 +99,7 @@ void ExampleLayer::OnUpdate(Hydron::Timestep ts)
 
 void ExampleLayer::OnEvent(Hydron::Event& e)
 {
-	m_EditorCamera.OnEvent(e);
+	m_EditorCamera->OnEvent(e);
 }
 
 void ExampleLayer::OnImGuiRender()
