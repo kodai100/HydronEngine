@@ -3,6 +3,7 @@
 #include "Hydron/Core/Base.h"
 #include "Camera.h"
 #include "Shader.h"
+#include "Texture.h"
 
 namespace Hydron {
 
@@ -13,6 +14,7 @@ namespace Hydron {
 
 		void Bind(const Ref<Camera>& camera, glm::mat4& transform);
 
+		void SetTexture(const std::string& name, const Texture& texture, const int index);
 		void Set(const std::string& name, const int value);
 		void Set(const std::string& name, const glm::mat3& matrix);
 		void Set(const std::string& name, const glm::mat4& matrix);

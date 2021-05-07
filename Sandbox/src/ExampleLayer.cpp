@@ -27,9 +27,7 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), m_Color({ 0,1,1,1 })
 	m_Texture = Hydron::Texture2D::Create("assets/textures/bunny.png");
 
 	m_Material = std::make_shared<Hydron::Material>(textureShader);
-
-	m_Material->Set("u_Texture", 0);
-
+	
 	m_Mesh.reset(Hydron::FBXImporter::Load("assets/fbx/bunny.fbx"));
 	m_Mesh->SetMaterial(m_Material);
 
@@ -37,7 +35,6 @@ ExampleLayer::ExampleLayer() : Layer("Example Layer"), m_Color({ 0,1,1,1 })
 
 void ExampleLayer::OnUpdate(Hydron::Timestep ts)
 {
-
 
 	// Resize
 	if (Hydron::FrameBufferSpecification spec = m_FrameBuffer->GetSpecification();
@@ -62,12 +59,12 @@ void ExampleLayer::OnUpdate(Hydron::Timestep ts)
 	{
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(10.0f));
 
-		m_Texture->Bind();
+		m_Material->SetTexture("u_Texture", *m_Texture.get(), 0);
+
 		Hydron::Renderer::Submit(m_Mesh, scale);
 	}
 
 	Hydron::Renderer::EndScene();
-
 
 	m_FrameBuffer->Unbind();
 }

@@ -29,6 +29,13 @@ namespace Hydron {
 		Set("u_AmbientColor", glm::vec4(0.01f, 0.01f, 0.01f, 1.0f));
 	}
 
+	void Material::SetTexture(const std::string& name, const Texture& texture, const int id)
+	{
+		m_Shader->Bind();
+		Set(name, 0);
+		texture.Bind();
+	}
+
 	void Material::Set(const std::string& name, const int value)
 	{
 		m_Shader->Bind();
