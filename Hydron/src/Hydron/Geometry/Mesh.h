@@ -2,6 +2,7 @@
 
 #include "glm/glm.hpp"
 #include "Hydron/Renderer/VertexArray.h"
+#include "Hydron/Renderer/Material.h"
 
 namespace Hydron {
 
@@ -17,9 +18,16 @@ namespace Hydron {
 
 		void PushTriangle(uint32_t v1, uint32_t v2, uint32_t v3);
 		
-		Ref<VertexArray> ConstructVertexArray();
+		void SetMaterial(Ref<Material> material);
+
+		void Bind(const Ref<Camera>& camera, glm::mat4& transform);
+
+		Ref<VertexArray> GetVertexArray();
 
 		bool Validate();
+
+	private:
+		Ref<VertexArray> ConstructVertexArray();
 
 	private:
 		std::vector<glm::vec3> m_Positions;
@@ -30,6 +38,8 @@ namespace Hydron {
 
 		bool m_AlreadyConstruct = false;
 		Ref<VertexArray> m_VertexArray;
+
+		Ref<Material> m_Material;
 	};
 
 }

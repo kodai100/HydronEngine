@@ -31,6 +31,7 @@ private:
 
 	Hydron::Ref<Hydron::FrameBuffer> m_FrameBuffer;
 
+	Hydron::Ref<Hydron::Material> m_Material;
 	Hydron::Ref<Hydron::Mesh> m_Mesh;
 
 	bool m_ViewportFocused = false, m_ViewportHovered = false;

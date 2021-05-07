@@ -49,13 +49,33 @@ namespace Hydron{
 		
 	}
 
-	Ref<VertexArray> Mesh::ConstructVertexArray()
+	void Mesh::SetMaterial(Ref<Material> material)
+	{
+		m_Material = material;
+	}
+
+	void Mesh::Bind(const Ref<Camera>& camera, glm::mat4& transform)
+	{
+		m_Material->Bind(camera, transform);
+
+		GetVertexArray()->Bind();
+	}
+
+	Ref<VertexArray> Mesh::GetVertexArray()
 	{
 		if (m_AlreadyConstruct)
 		{
 			return m_VertexArray;
+		} 
+		else
+		{
+			return ConstructVertexArray();
 		}
+	}
 
+	Ref<VertexArray> Mesh::ConstructVertexArray()
+	{
+		
 		std::vector<float> vertexData;
 
 		for (int i = 0; i < m_Positions.size(); i++)

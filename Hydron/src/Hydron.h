@@ -27,6 +27,7 @@
 #include "Hydron/Renderer/Buffer.h"
 #include "Hydron/Renderer/VertexArray.h"
 #include "Hydron/Renderer/FrameBuffer.h"
+#include "Hydron/Renderer/Material.h"
 
 #include "Hydron/Renderer/EditorCamera.h"
 
